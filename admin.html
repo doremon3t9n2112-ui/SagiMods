@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftAI Admin - Đăng Tải Mod Mới</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <i data-lucide="box"></i> CRAFT<span>AI</span> <small class="admin-tag">ADMIN</small>
+        </a>
+        <a href="index.html" class="btn-primary" style="text-decoration: none;">
+            <i data-lucide="arrow-left"></i> Xem Trang Chủ
+        </a>
+    </nav>
+
+    <!-- FORM UPLOAD CONTAINER -->
+    <main class="admin-container">
+        <div class="form-card">
+            <h2><i data-lucide="plus-circle" color="#10b981"></i> Đăng Tải Mod / Shader Mới</h2>
+            <p class="subtitle">Điền thông tin bên dưới để đưa Mod lên trang web của bạn.</p>
+
+            <form id="upload-form">
+                <div class="form-group">
+                    <label>Tên Mod / Addon</label>
+                    <input type="text" id="mod-title" placeholder="VD: Dynamic Lighting" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Thể loại (Category)</label>
+                        <select id="mod-category">
+                            <option value="Shader Pack">Shader Pack</option>
+                            <option value="Physics Mod">Physics Mod</option>
+                            <option value="Optimization">Optimization (Tối ưu)</option>
+                            <option value="AI & Mobs">AI & Mobs</option>
+                            <option value="Gameplay Mod">Gameplay Mod</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phiên bản Game & Mod</label>
+                        <input type="text" id="mod-version" placeholder="VD: v1.2 • Minecraft 1.20.4" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Icon (Tên Lucide Icon)</label>
+                        <input type="text" id="mod-icon" placeholder="VD: cpu, sun, bot, zap, flame..." value="box">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lượt tải ban đầu & Đánh giá</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="mod-downloads" placeholder="VD: 10k" value="1k">
+                            <input type="text" id="mod-rating" placeholder="VD: 5.0" value="5.0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Link Ảnh Xem Trước (Preview Image URL)</label>
+                    <input type="url" id="mod-image" placeholder="https://images.unsplash.com/..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Link Tải Xuống (.jar / .zip / CurseForge)</label>
+                    <input type="url" id="mod-download-url" placeholder="https://..." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả ngắn</label>
+                    <textarea id="mod-desc" rows="3" placeholder="Mô tả công dụng nổi bật của Mod..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Các bước cài đặt (Mỗi bước 1 dòng)</label>
+                    <textarea id="mod-steps" rows="4" placeholder="Tải Fabric Loader&#10;Dán file vào thư mục /mods&#10;Khởi động lại game" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary btn-submit">
+                    <i data-lucide="upload-cloud"></i> Đăng Mod Ngay
+                </button>
+            </form>
+        </div>
+
+        <!-- KHU VỰC COPY JSON ĐỂ ĐƯA LÊN GITHUB -->
+        <div class="json-output-card">
+            <h3><i data-lucide="code"></i> Mã JSON Dành Cho Github (`data.js`)</h3>
+            <p>Sau khi đăng mod, bạn có thể copy mã bên dưới để dán vào file <code>js/data.js</code> nếu muốn lưu trữ vĩnh viễn trên GitHub.</p>
+            <textarea id="json-output" readonly rows="8" placeholder="Mã JSON sẽ xuất hiện ở đây..."></textarea>
+            <button id="btn-copy" class="btn-download" style="margin-top: 10px;">
+                <i data-lucide="copy"></i> Sao chép mã JSON
+            </button>
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+
+            const form = document.getElementById("upload-form");
+            const jsonOutput = document.getElementById("json-output");
+            const btnCopy = document.getElementById("btn-copy");
+
+            // Xử lý sự kiện Submit Form
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                // 1. Tách các bước cài đặt theo từng dòng
+                const rawSteps = document.getElementById("mod-steps").value;
+                const stepsArray = rawSteps.split('\n').filter(step => step.trim() !== "");
+
+                // 2. Tạo đối tượng Mod mới
+                const newMod = {
+                    id: Date.now(), // Tạo ID duy nhất bằng Timestamp
+                    title: document.getElementById("mod-title").value,
+                    category: document.getElementById("mod-category").value,
+                    version: document.getElementById("mod-version").value,
+                    icon: document.getElementById("mod-icon").value || "box",
+                    image: document.getElementById("mod-image").value,
+                    description: document.getElementById("mod-desc").value,
+                    downloadUrl: document.getElementById("mod-download-url").value,
+                    steps: stepsArray,
+                    downloads: document.getElementById("mod-downloads").value || "1k",
+                    rating: document.getElementById("mod-rating").value || "5.0"
+                };
+
+                // 3. Lưu vào LocalStorage của trình duyệt
+                let localMods = JSON.parse(localStorage.getItem("custom_mods")) || [];
+                localMods.push(newMod);
+                localStorage.setItem("custom_mods", JSON.stringify(localMods));
+
+                // 4. Xuất mã JSON cho người dùng copy lên GitHub
+                const allData = [...modsData, ...localMods];
+                jsonOutput.value = `const modsData = ${JSON.stringify(allData, null, 4)};`;
+
+                alert("🎉 Đã thêm Mod thành công! Bạn có thể về Trang Chủ để xem thử.");
+                form.reset();
+            });
+
+            // Coppy mã
+            btnCopy.addEventListener("click", () => {
+                if(!jsonOutput.value) return alert("Vui lòng đăng Mod trước!");
+                navigator.clipboard.writeText(jsonOutput.value);
+                alert("Đã sao chép mã JSON vào Clipboard! Hãy dán vào file js/data.js trên GitHub.");
+            });
+        });
+    </script>
+</body>
+</html>
