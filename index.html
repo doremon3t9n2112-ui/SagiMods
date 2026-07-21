@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftAI - Minecraft Mods & Next-Gen Addons</title>
+    
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Modular CSS Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link rel="stylesheet" href="css/cards.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+    <!-- NAVBAR REGION -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i data-lucide="box"></i> CRAFT<span>AI</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#">Trang chủ</a></li>
+            <li><a href="#">Modpack</a></li>
+            <li><a href="#">Shaders</a></li>
+            <li><a href="#">Tài liệu</a></li>
+        </ul>
+        <button class="btn-primary">
+            <i data-lucide="zap"></i> Khám Phá Ngay
+        </button>
+    </nav>
+
+    <!-- HERO REGION -->
+    <section class="hero">
+        <div class="badge">
+            <i data-lucide="sparkles" size="14"></i> Nền tảng Mod Minecraft thế hệ mới
+        </div>
+        <h1>Nâng cấp trải nghiệm Minecraft với <span>AI & Mod Cao Cấp</span></h1>
+        <p>Tải xuống các bản Mod, Shader và Plugin đã được tối ưu hóa hiệu năng cực mượt.</p>
+        
+        <div class="search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="search-input" class="search-bar" placeholder="Tìm kiếm Mod, Shader, Version...">
+        </div>
+    </section>
+
+    <!-- MODS GRID REGION -->
+    <section class="mods-section">
+        <h2 class="section-title"><i data-lucide="trending-up" color="#10b981"></i> Mod Nổi Bật</h2>
+        
+        <!-- Grid container sẽ được Javascript đổ dữ liệu vào đây -->
+        <div class="grid" id="mods-grid"></div>
+    </section>
+
+    <!-- FOOTER REGION -->
+    <footer class="footer">
+        <p>© 2026 CraftAI. Thiết kế theo phong cách Bolt AI. Không liên kết với Mojang AB.</p>
+    </footer>
+
+    <!-- Modular Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
