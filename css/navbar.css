@@ -20,9 +20,7 @@
     text-decoration: none;
 }
 
-.logo span {
-    color: var(--accent-green);
-}
+.logo span { color: var(--accent-green); }
 
 .nav-links {
     display: flex;
@@ -37,6 +35,4 @@
     transition: 0.3s;
 }
 
-.nav-links a:hover {
-    color: var(--accent-green);
-}
+.nav-links a:hover { color: var(--accent-green); }
